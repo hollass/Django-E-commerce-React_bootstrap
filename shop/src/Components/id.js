@@ -1,9 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css'
-import {Navbar, Nav, Button, Container, Row, Col, Form, Modal, DropdownDivider} from "react-bootstrap";
+import {Navbar, Nav, Button, Container, Row, Col, Form, Modal, DropdownDivider, Offcanvas} from "react-bootstrap";
 import {useState} from "react";
 
 export default function Product_id() {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     return (
         <div className={'product_id'}>
 
@@ -45,6 +49,21 @@ export default function Product_id() {
 
 
                     </div>
+                    <div className={'description_product'}>
+                        <Button variant="link" onClick={handleShow} className="me-2">
+                            Открыть описание
+                        </Button>
+
+                        <Offcanvas show={show} onHide={handleClose} placement="end">
+                            <Offcanvas.Header closeButton>
+                                <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+                            </Offcanvas.Header>
+                            <Offcanvas.Body>
+                                Some text as placeholder. In real life you can have the elements you
+                                have chosen. Like, text, images, lists, etc.
+                            </Offcanvas.Body>
+                        </Offcanvas>
+                    </div>
                 </div>
                 <div className={'price_product'}>
                     <div className={'price_block'}>
@@ -54,12 +73,8 @@ export default function Product_id() {
                             <Button variant="primary">Купить</Button>
                         </div>
                     </div>
-
                 </div>
-
-
             </div>
-
         </div>
     )
 }

@@ -10,6 +10,7 @@ import Footer from "./Components/footer";
 import {Route, Routes, BrowserRouter as Router} from "react-router-dom";
 import product_id from "./Components/id";
 import Product_id from "./Components/id";
+import Basket from "./Components/basket";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
                     <Route path='/about'/>
                     <Route path='/profile' element={<Profile/>}/>
                     <Route path='/id' element={<Product_id/>}/>
+                    <Route path='/basket' element={<Basket/>}/>
 
                 </Routes>
             </Router>

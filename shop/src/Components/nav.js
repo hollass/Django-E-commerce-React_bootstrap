@@ -53,14 +53,14 @@ export default function Navig() {
                                                  width='30px'/> Избранные
                                         </span>
                                     </a>
-                                    <a href="#pricing">
+                                    <a href="/basket">
                                         <span>
                                             <img onClick={handleShow}
                                                  src='https://img.icons8.com/?size=100&id=9671&format=png&color=000000'
                                                  width='30px'/> Корзина
                                         </span>
                                     </a>
-                                    <a href="#pricing">
+                                    <a href="/profile#setting-1">
                                         <span>
                                             <img onClick={handleShow}
                                                  src='https://img.icons8.com/?size=100&id=ckaioC1qqwCu&format=png&color=000000'
@@ -90,7 +90,7 @@ export default function Navig() {
                                     <Form.Label>Пароль</Form.Label>
                                     <Form.Control type="password" placeholder="Пароль"/>
                                 </Form.Group>
-                                <div className="login_btn">
+                                <div className="login_Button">
                                     <Button variant="link" type="submit" href={'/profile'}>
                                         Log in
                                     </Button>
