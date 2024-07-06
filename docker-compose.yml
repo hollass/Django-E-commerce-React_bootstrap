@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  django:
+    build: /django_react/main
+    container_name: djangoapp
+    restart: always
+    ports:
+      - 8000:8000
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+
+
+  node:
+    build: /django_react/frontend/templates
+    container_name: reactapp
+    restart: always
+    ports:
+      - 3000:3000
+    command: npm start
+    depends_on:
+      - django
