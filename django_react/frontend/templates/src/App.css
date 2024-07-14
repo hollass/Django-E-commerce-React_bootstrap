@@ -1,5 +1,5 @@
 :root {
-background-color: #e1e1e1;
+    background-color: white;
 }
 
 .App {
@@ -7,33 +7,72 @@ background-color: #e1e1e1;
     font-optical-sizing: auto;
     font-style: normal;
     font-weight: lighter;
-    background-color: #e1e1e1;
+    background-color: white;
+
+
+}
+
+
+@media (min-width: 768px) {
+    .vertical-menu {
+        display: grid;
+        row-gap: 20px;
+        grid-template-columns: repeat(2, calc(100% / 2 - 8px / 2 * (2 - 1)));
+    }
+}
+
+@media (min-width: 1024px) {
+
+    .vertical-menu {
+        display: grid;
+        row-gap: 20px;
+        grid-template-columns: repeat(4, calc(100% / 4 - 8px / 4 * (4 - 1)));
+    }
+}
+
+
+@media (min-width: 1280px) {
+    .vertical-menu {
+        display: grid;
+        row-gap: 20px;
+        grid-template-columns: repeat(4, calc(100% / 4 - 8px / 4 * (4 - 1)));
+    }
 }
 
 .vertical-menu {
-    font-size: 20px;
-    /*border: black 1px solid;*/
-    margin-left: -10px !important;
-    max-height: 100% !important;
-    margin-right: auto;
-    overflow-y: auto;
-    float: left;
+    border: none;
 
-    a {
-        font-family: "Exo 2", sans-serif;
-        font-optical-sizing: auto;
-        font-style: normal;
-        font-weight: lighter;
-        color: black;
+    .card-category {
+        margin-right: 0.5em !important;
+
+        .card {
+            border-radius: 20px !important;
+            border: none !important;
+
+            p {
+                position: absolute;
+                bottom: 0;
+                left: 5%;
+                color: white;
+                font-size: 1.5em;
+            }
+        }
+
+        .card:hover {
+            box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+
+        }
+    }
+
+
+    img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+        border-radius: 20px;
 
     }
 
-    a:hover {
-        background-color: #f7f7f7;
-        width: 230px !important;
-        color: blue;
-        border-radius: 100px;
-    }
 }
 
 .menu {
@@ -41,18 +80,51 @@ background-color: #e1e1e1;
 }
 
 .all_product {
-    width: 80% !important;
+    display: flex;
+    flex-direction: column;
+    width: 90% !important;
+    margin-right: auto;
+    margin-left: auto;
+
+
+    @media (min-width: 256px) {
+        .row {
+            display: grid;
+            grid-template-columns: repeat(2, calc(100% / 2 - 8px / 2 * (2 - 1)));
+            grid-auto-flow: row dense;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .row {
+            display: grid;
+            grid-gap: 30px;
+            grid-template-columns: repeat(4, calc(100% / 4 - 8px / 4 * (4 - 1)));
+        }
+    }
+    @media (min-width: 1024px) {
+        .row {
+            display: grid;
+            row-gap: 40px;
+            grid-template-columns: repeat(4, calc(100% / 4 - 8px / 4 * (4 - 1)));
+        }
+    }
+    @media (min-width: 1280px) {
+        .row {
+            display: grid;
+            grid-gap: 30px;
+            grid-template-columns: repeat(6, calc(100% / 6 - 30px / 6 * (6 - 1)));
+        }
+    }
 
 
     .card {
         margin: 10px;
         min-height: 350px;
         box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
-        display: flex;
         flex-direction: column; /* Размещаем элементы в колонку */
         border-radius: 4px;
-        position: relative;
-        width: 20% !important;
+        width: 100%;
 
         .card-img {
 
@@ -246,6 +318,7 @@ background-color: #e1e1e1;
             margin-right: auto;
 
         }
+
         .update_profile:hover {
             background-color: #dcdcdc;
             transition: .3s;
@@ -264,7 +337,6 @@ background-color: #e1e1e1;
             list-style-type: none;
 
 
-
             .block-item-info p {
                 color: #8d8d8d;
 
@@ -279,7 +351,8 @@ background-color: #e1e1e1;
                 font-size: 18px;
             }
         }
-        .block-info-li input{
+
+        .block-info-li input {
             color: black;
         }
     }
@@ -604,12 +677,12 @@ body::-webkit-scrollbar-thumb {
 }
 
 .cart-item {
-  transition: all 0.3s ease-in-out; /* Добавляем плавность удаления */
+    transition: all 0.3s ease-in-out; /* Добавляем плавность удаления */
 }
 
 .cart-item.remove {
-  transform: translateX(100%); /* Сдвигаем элемент вправо */
-  opacity: 0; /* Делаем элемент прозрачным */
+    transform: translateX(100%); /* Сдвигаем элемент вправо */
+    opacity: 0; /* Делаем элемент прозрачным */
 }
 
 /*pages AUTH*/
@@ -653,4 +726,125 @@ body::-webkit-scrollbar-thumb {
         transition: 0.3s;
     }
 
+}
+
+.Carousel_banner {
+    display: flex;
+    margin-top: 0.5em;
+    text-align: center;
+
+}
+
+.CarouselImage {
+    display: flex;
+
+
+    img {
+        object-fit: cover;
+        width: 100%;
+        height: 350px;
+        border-radius: 25px;
+
+    }
+}
+
+.favorites_panel {
+    display: flex;
+    padding: 0.5em;
+
+    .favorites_settings {
+        width: 25%;
+        height: 700px;
+
+        .favorites_block_cats {
+            .favorites_list_cats {
+                height: 200px !important;
+
+                margin-bottom: 1.5em;
+                overflow-y: scroll;
+                overflow-x: hidden;
+
+                li {
+                    list-style-type: none;
+                    width: 100%;
+                    height: 35px;
+
+                }
+
+                a {
+                    text-decoration: none;
+                    color: black;
+                    margin-left: 1em;
+
+                }
+
+                a:hover {
+                    color: blue !important;
+                    transition: 0.3s;
+                }
+            }
+
+
+        }
+
+
+
+
+    }
+
+    .favorites_list {
+        margin-left: 0;
+        width: 60%;
+        height: 700px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        display: grid;
+        row-gap: 30px;
+        column-gap: 10px;
+        grid-template-columns: repeat(4, calc(100% / 4 - 8px / 4 * (4 - 1)));
+
+
+        .favorites_card {
+            background-color: white;
+            border: none;
+
+            .card-body {
+                background-color: white;
+                padding-bottom: 0;
+                padding-top: 0;
+                flex: 0;
+
+                .card-title {
+                    font-weight: bold !important;
+                }
+
+            }
+
+            .card-text {
+                font-size: 14px;
+                color: black !important;
+                height: 5% !important;
+            }
+
+            .card-footer {
+                background-color: white;
+            }
+
+            img {
+                width: 100%;
+
+            }
+        }
+    }
+    .favorites_btn {
+            margin-top: 1.5em;
+            color: black;
+            border: 1px solid #eeeeee;
+        }
+
+        .favorites_btn:hover {
+            color: black;
+            background-color: blue;
+            border: 1px solid blue;
+        }
 }

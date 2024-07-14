@@ -1,7 +1,7 @@
 import './App.css';
 import React, {useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Product from './Components/product';
+import Product from './pages/home';
 import Navig from './Components/nav';
 import Profile from './pages/profile';
 import Menu from './Components/menu';
@@ -13,6 +13,8 @@ import axios from "axios";
 import Register from "./pages/register";
 import Notfound from "./pages/notfound";
 import Login from "./pages/login";
+import Favorites from "./pages/favorites";
+import Shop_page_cat from "./pages/categirie";
 
 
 function Logout() {
@@ -53,7 +55,9 @@ class App extends React.Component {
                     <Route path='/id' element={<Product_id/>}/>
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/register' element={<Register/>}/>
-                    {/*<Route path='/basket' element={<Basket/>}/>*/}
+                    <Route path='/basket' element={<Basket/>}/>
+                    <Route path='/favorites' element={<Favorites/>}/>
+                    <Route path='/catalog/:id' element={<Shop_page_cat/>}/>
                     <Route path='*' element={<Notfound/>}/>
 
                 </Routes>

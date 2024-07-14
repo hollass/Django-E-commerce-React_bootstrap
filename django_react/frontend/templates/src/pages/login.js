@@ -95,9 +95,14 @@ export default function Login() {
     }
 
     const userInfo = () => {
-        const nameInfo = document.cookie.split(';')
-            .find(row => row.startsWith('loginInfo=')).split('=')[1];
-        return nameInfo;
+        try {
+            const nameInfo = document.cookie.split(';')
+                .find(row => row.startsWith('loginInfo=')).split('=')[1];
+            return nameInfo;
+        } catch {
+            document.cookie = "csrftoken=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        }
+
     }
 
 

@@ -3,7 +3,7 @@ import '../App.css'
 import {Container, Row, Col, Card, Button, Form} from "react-bootstrap";
 import {useState} from "react";
 
-function ProductCounter({initialCount}) { // Передаем начальное значение счетчика
+function ProductCounter({initialCount}) {
     const [count, setCount] = useState(initialCount);
 
     const increment = () => {
@@ -173,8 +173,6 @@ export default function Basket() {
 
 
     const handleRemoveItem = (itemId) => {
-
-        // 3. Удаляем элемент из DOM после завершения анимации
         setTimeout(() => {
             setProducts(prevItems => prevItems.filter(item => item.id !== itemId));
         }, 300); // 300ms - продолжительность анимацииR

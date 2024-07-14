@@ -13,6 +13,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import permissions, status
 from django.contrib.auth.models import User
+
+from .parser.parser import WildParser
 from .serializers import UserRegisterSerializer, UserLoginSerializer, UserProfileSerializer
 
 
@@ -108,5 +110,13 @@ def register_view(request):
     session = Session.objects.create()
     session.save()
 
-    return JsonResponse({'detail': 'Успешная регистрация', 'session_id': session.session_id})
+    return JsonResponse({'detail': 'Успешная регистрация'})
 
+
+
+wild = WildParser()
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def cats_view(request):
+    parents = wild.download_current_catalogue()
+    return Response({'data': parents}, status=status.HTTP_200_OK)

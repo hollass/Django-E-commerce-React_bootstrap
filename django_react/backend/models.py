@@ -24,10 +24,12 @@ class Categorie(models.Model):
         verbose_name_plural = "Категории"
 
     name = models.CharField(max_length=100)
+
     active = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     parent_id = models.IntegerField(null=True, blank=True)
+    # url = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
@@ -63,3 +65,17 @@ class Order(models.Model):
     status = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+
+class Like(models.Model):
+    class Meta:
+        db_table = 'like'
+        verbose_name = "Избранные"
+        verbose_name_plural = "Избранные"
+
+    user_id = models.IntegerField()
+    products = models.JSONField(default=dict)  # product_id + quantity
+    # quantity = models.IntegerField()
+    status = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
