@@ -24,8 +24,10 @@ class Categorie(models.Model):
         verbose_name_plural = "Категории"
 
     name = models.CharField(max_length=100)
+    info = models.JSONField(default=dict, unique=True)  # url + query + shard
 
     active = models.IntegerField()
+    sorted_at = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     parent_id = models.IntegerField(null=True, blank=True)
@@ -42,9 +44,10 @@ class Product(models.Model):
         verbose_name_plural = "Товары"
 
     category_id = models.IntegerField()
-    name = models.CharField(max_length=100)
-    description = models.CharField(max_length=1000, null=True, blank=True)
-    price = models.IntegerField()
+    rating = models.FloatField(null=True, blank=True)
+    name = models.CharField(max_length=120)
+    description = models.JSONField(default=dict, unique=True)
+    price = models.JSONField(default=dict)
     image = models.CharField(max_length=100, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)

@@ -15,6 +15,7 @@ import Notfound from "./pages/notfound";
 import Login from "./pages/login";
 import Favorites from "./pages/favorites";
 import Shop_page_cat from "./pages/categirie";
+import Catalog from "./Components/catalog_list";
 
 
 function Logout() {
@@ -57,7 +58,11 @@ class App extends React.Component {
                     <Route path='/register' element={<Register/>}/>
                     <Route path='/basket' element={<Basket/>}/>
                     <Route path='/favorites' element={<Favorites/>}/>
-                    <Route path='/catalog/:id' element={<Shop_page_cat/>}/>
+
+                    <Route path='/catalog/:parent/' element={<Catalog/>}/>
+                    <Route path='/catalog/:parent/:child' element={<Catalog/>}/>
+                    <Route path='/catalog/:parent/:child/:lvl3' element={<Catalog/>}/>
+
                     <Route path='*' element={<Notfound/>}/>
 
                 </Routes>

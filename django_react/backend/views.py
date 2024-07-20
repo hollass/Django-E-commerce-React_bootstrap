@@ -16,9 +16,9 @@ from django.contrib.auth.models import User
 
 from .parser.parser import WildParser
 from .serializers import UserRegisterSerializer, UserLoginSerializer, UserProfileSerializer
+from .models import Categorie, Product
 
 
-# Декоратор для выдачи ошибки если пользователь неавторизован
 def json_login_required(view_func):
     def wrapped_view(request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -73,6 +73,7 @@ def logout_view(request):
     logout(request)
     return Response(status=status.HTTP_200_OK)
 
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def user_info(request):
@@ -89,6 +90,7 @@ class UserView(APIView):
     def get(self, request):
         ser = UserProfileSerializer(request.user)
         return Response({'user': ser.data}, status=status.HTTP_200_OK)
+
 
 @require_POST
 def register_view(request):
@@ -113,10 +115,117 @@ def register_view(request):
     return JsonResponse({'detail': 'Успешная регистрация'})
 
 
-
 wild = WildParser()
+
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def cats_view(request):
-    parents = wild.download_current_catalogue()
-    return Response({'data': parents}, status=status.HTTP_200_OK)
+    data = []
+    parents = Categorie.objects.all().filter(parent_id=None)
+    for i in parents:
+        data.append(
+            {'id': i.id,
+             'name': i.name,
+             'query': i.info['query'],
+             'shard': i.info['shard'],
+             'url': i.info['url']
+             }
+        )
+
+    return Response({'data': data}, status=status.HTTP_200_OK)
+
+
+def add_cat(data: []):
+    a = +1
+    if a == 1:
+        for item in data:
+            try:
+                parent = Categorie(
+                    name=item['name'],
+                    info={'url': item['url'], 'query': item['query'], 'shard': item['shard']},
+                    active=1,
+
+                )
+                parent.save()
+                for i in item['childs']:
+                    cat = Categorie(
+                        name=i['name'],
+                        info={'url': i['url'], 'query': i['query'], 'shard': i['shard']},
+                        active=1,
+                        parent_id=parent.id,
+                    )
+                    cat.save()
+
+            except:
+                pass
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def cat_view(request):
+    request_data = request.data
+    url = '/catalog'
+    for i in request_data['url']:
+        if i == None:
+            break
+        url += '/' + i
+
+    page = request_data['page']
+
+    url = Categorie.objects.get(info__url=url)
+    if request_data['url'][1] == None:
+        url = Categorie.objects.filter(parent_id=url.id)[0]
+
+    prod = Product.objects.filter(category_id=url.id).values_list('description__id', flat=True).distinct(
+        'description__id')[page * 24 - 24:page * 24]
+    data = []
+    for item in prod:
+        item = Product.objects.filter(description__id=item)[0]
+        data.append(
+            {'id': item.description["id"],
+             'name': item.name,
+             'description': {'brand': item.description['brand'],
+                             'name': item.description['name']},
+             'price': item.price,
+             'rating': item.rating,
+             }
+        )
+
+    return Response({'data': data}, status=status.HTTP_200_OK)
+
+
+def add_product():
+    cats = Categorie.objects.all()
+
+    for i in cats:
+        try:
+            cat = Categorie(id=i.id)
+            data = wild.get_all_products_in_category(1,
+                                                     {
+                                                         'query': i.info['query'],
+                                                         'shard': i.info['shard']
+                                                     })
+            data = data['data']['products']
+            for item in data:
+                for j in item['sizes']:
+                    try:
+                        product = Product(
+                            category_id=cat.id,
+                            rating=item['reviewRating'],
+                            name=item['name'],
+                            description={
+                                'id': item['id'],
+                                'brand': item['brand'],
+                                'name': j['name']
+                            },
+                            price=j['price']
+                        )
+
+                        print(f'Product add {item["name"]}')
+
+                        product.save()
+                    except:
+                        pass
+        except:
+            pass

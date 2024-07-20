@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 
 export default function Menu_cats() {
-        const serverUrl = 'http://localhost:8000/'
+    const serverUrl = 'http://localhost:8000/'
     useEffect(() => {
         allcats()
     }, [])
@@ -16,13 +16,13 @@ export default function Menu_cats() {
         axios.post(serverUrl + 'api/cats_info/')
             .then((res) => {
                 setisCats(res.data.data)
-                console.log(isCats)
 
             })
             .catch((err) => {
                 console.error(err);
             });
     }
+
     return (
 
         <div className="vertical-menu">

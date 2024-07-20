@@ -753,7 +753,7 @@ body::-webkit-scrollbar-thumb {
     padding: 0.5em;
 
     .favorites_settings {
-        width: 25%;
+        width: 17%;
         height: 700px;
 
         .favorites_block_cats {
@@ -794,14 +794,13 @@ body::-webkit-scrollbar-thumb {
 
     .favorites_list {
         margin-left: 0;
-        width: 60%;
+        width: 80%;
         height: 700px;
-        overflow-y: scroll;
-        overflow-x: hidden;
+
         display: grid;
         row-gap: 30px;
         column-gap: 10px;
-        grid-template-columns: repeat(4, calc(100% / 4 - 8px / 4 * (4 - 1)));
+        grid-template-columns: repeat(6, calc(100% / 6 - 8px / 6 * (6 - 1)));
 
 
         .favorites_card {

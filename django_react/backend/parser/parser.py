@@ -83,15 +83,14 @@ class WildParser:
             print('Загрузка товаров завершена')
             return True
 
-    def get_all_products_in_category(self, category_data: tuple):
-
-        for page in range(1, 50):
-            print(f"Загружаю товары со страницы {page}")
-            url = (f"https://catalog.wb.ru/catalog/{category_data[1]}/v2/"
-                   f"catalog?ad_testing=false&appType=1&{category_data[2]}&curr=rub"
-                   f"&dest=-1785058&page={page}&sort=popular&spp=30")
-            if self.add_data_from_page(url):
-                break
+    def get_all_products_in_category(self, page, category_data: dict):
+        print(category_data)
+        url = (f"https://catalog.wb.ru/catalog/{category_data['shard']}/v2/"
+               f"catalog?ad_testing=false&appType=1&{category_data['query']}&curr=rub"
+               f"&dest=-1785058&page={page}&sort=popular&spp=30")
+        print(url)
+        response = requests.get(url, headers=self.headers).json()
+        return response
 
     def get_sales_data(self):
 
@@ -151,4 +150,3 @@ class WildParser:
             self.get_all_products_in_search_result(key_word)
             self.get_sales_data()
             print(f"Данные сохранены в {self.save_to_excel(key_word)}")
-

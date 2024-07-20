@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import get_csrf, user_info, \
-    UserRegister, UserLogin, UserView, logout_view, cats_view
+    UserRegister, UserLogin, UserView, logout_view, cats_view, cat_view
 
 urlpatterns = [
     path('csrf/', get_csrf, name='api-csrf'),
@@ -10,4 +10,5 @@ urlpatterns = [
     path('user/', UserView.as_view(), name='api-userInfo'),
     path('user_info/', user_info, name='api-userInfo'),
     path('cats_info/', cats_view, name='api-userInfo'),
+    path('cat_info/', cat_view, name='api-userInfo'),
 ]
