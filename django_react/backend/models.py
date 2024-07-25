@@ -2,21 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User, AbstractUser
 from django.contrib.auth.models import User as authenticate
 from django.contrib.auth.forms import UserCreationForm
-
-#
-# class User(AbstractUser):
-#     class Meta:
-#         db_table = 'users'
-#         verbose_name = "Пользователь"
-#         verbose_name_plural = "Пользователи"
-#         permissions = \
-#             (
-#             ("add_logentry"), ('add_user'), ("add_session"), ("add_order"), ("change_user"), ("change_session"), ("change_order"),
-#             ("delete_session"), ("view_user"), ("view_product"), ("view_categorie"), ("view_user"), ("view_order"), ('create_user'),
-#             ('update_user'),
-#         )
-
-
 class Categorie(models.Model):
     class Meta:
         db_table = 'categories'
@@ -63,11 +48,22 @@ class Order(models.Model):
         verbose_name_plural = "Заказы"
 
     user_id = models.IntegerField()
-    products = models.JSONField(default=dict)  # product_id + quantity
-    # quantity = models.IntegerField()
     status = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+
+class OrderProduct(models.Model):
+    class Meta:
+        db_table = 'order_product'
+        verbose_name = "Товар в заказе"
+        verbose_name_plural = "Товары в заказах"
+
+    order_id = models.IntegerField(default=0)
+    product_id = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
 
 class Like(models.Model):
     class Meta:

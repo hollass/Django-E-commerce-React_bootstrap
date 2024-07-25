@@ -1,8 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../card.css';
 import '../App.css'
-import {Navbar, Nav, Button, Container, Row, Col, Form, Modal, Image, Card, InputGroup} from "react-bootstrap";
+import {Button, Container, Row, Col, Form, InputGroup} from "react-bootstrap";
 import {useEffect, useState} from "react";
-import {redirect, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
+
 import axios from "axios";
 
 export default function Catalog() {
@@ -17,16 +19,16 @@ export default function Catalog() {
     const [isProducts, setisProducts] = useState([])
 
     // pagination
-    const [fetch, setFetch] = useState(true)
+    const [fetchs, setFetch] = useState(true)
 
 
     useEffect(() => {
-        if (fetch) {
-            console.log('da')
+        if (fetchs) {
             view_cat()
         }
         scrollHandler()
-    }, [fetch])
+
+    }, [fetchs])
 
     useEffect(() => {
         document.addEventListener('scroll', scrollHandler)
@@ -36,7 +38,34 @@ export default function Catalog() {
         }
     }, [])
 
+    function useHover() {
+        const [hoveredId, setHoveredId] = useState(null);
 
+        const onHoverProps = (id) => ({
+            onMouseEnter: () => setHoveredId(id),
+            onMouseLeave: () => setHoveredId(null),
+        });
+
+        return [hoveredId, onHoverProps];
+    }
+
+    const [isName, setIsName] = useHover()
+
+
+    const user = document.cookie.split('; ')
+                .find(row => row.startsWith('loginInfo=')).split('=')[1];
+
+
+    const add_cart = (product) => {
+        axios.post(serverUrl + 'api/add_cart/', {
+                user: user,
+                cart: 1,
+                product: product
+        })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
     const scrollHandler = () => {
         if (document.documentElement.scrollHeight - (document.documentElement.scrollTop + window.innerHeight) < 100) {
             setFetch(true)
@@ -60,6 +89,11 @@ export default function Catalog() {
             });
     }
 
+    function add(prdct) {
+        add_cart(prdct)
+    }
+
+
 
     return (
         <div className={'favorites_panel'}>
@@ -68,9 +102,6 @@ export default function Catalog() {
                     <Row className={'favorites_block_cats'}>
                         <Col>
                             <p>Катеории</p>
-                            <p>{prodParent}</p>
-                            <p>{prodChild}</p>
-                            <p>{prodLvl3}</p>
                         </Col>
                         <div className={'favorites_list_cats'}>
                             <ul>
@@ -108,17 +139,46 @@ export default function Catalog() {
                 </Container>
 
             </div>
-            <Container className={'favorites_list'}>
-                {isProducts.map(product => (
-                    <Card className={'favorites_card'}>
-                        <img src={'https://www.expertentesten.de/wp-content/uploads/2016/02/fachhandel-2.jpg'}/>
-                        <Card.Body>
-                            <Card.Title>{Number(product.price.product) / 100} Р</Card.Title>
-                        </Card.Body>
-                        <Card.Text>{product.name}</Card.Text>
-                        <Button className={'favorites_btn btn btn-primary bg-white'}>Купить</Button>
-                    </Card>
-                ))}
+            <Container className={'all_product'}>
+                <Col>
+                    <Row>
+                        {isProducts.map(Product => (
+                            <div
+                                key={Product.id}
+                                className="card__id"
+                                {...setIsName(Product.id)}
+                            >
+                                <img
+                                    src="https://basket-09.wbbasket.ru/vol1243/part124302/124302874/images/big/1.webp"
+                                    className="card__image" alt=""/>
+                                <div className="card__overlay">
+                                    <div className="card__header">
+                                        <svg className="card__arc" xmlns="http://www.w3.org/2000/svg">
+                                            <path/>
+                                        </svg>
+                                        <div className="card__header-text">
+                                            <span
+                                                className="card__status">{Number(Product.price.product) / 100} Р</span>
+                                            <h3 className="card__title">
+                                                {isName === Product.id
+                                                    ? Product.name
+                                                    : Product.name.slice(0, 16) + '...'}
+                                            </h3>
+
+                                            <p className="card__brand small">{isName === Product.id
+                                                    ? Product.description.brand
+                                                    : Product.description.brand.slice(0, 16) + '...'}</p>
+                                        </div>
+                                    </div>
+                                    <div className="card__button">
+                                        <Button className={'card__button_buy'}
+                                                variant="link" onClick={() => add(Product.id)}>В корзину</Button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </Row>
+                </Col>
 
 
             </Container>

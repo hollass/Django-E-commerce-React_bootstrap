@@ -2,8 +2,6 @@ import json
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
-from django.shortcuts import render
-from django.views.decorators.csrf import ensure_csrf_cookie, requires_csrf_token, csrf_protect, csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.sessions.models import Session
 from rest_framework.authentication import SessionAuthentication
@@ -16,7 +14,7 @@ from django.contrib.auth.models import User
 
 from .parser.parser import WildParser
 from .serializers import UserRegisterSerializer, UserLoginSerializer, UserProfileSerializer
-from .models import Categorie, Product
+from .models import Categorie, Product, Order, OrderProduct
 
 
 def json_login_required(view_func):
@@ -28,21 +26,17 @@ def json_login_required(view_func):
     return wrapped_view
 
 
-# Создаёт уникальный CSRF-токен и вставляет в cookie браузеру
 def get_csrf(request):
     response = JsonResponse({'detail': 'CSRF cookie set'})
     response['X-CSRFToken'] = get_token(request)
     return response
 
-
 class UserRegister(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
-        # Получаем данные из запроса
         data = request.data
         serial = UserRegisterSerializer(data=data)
-        # is_authenticated()
 
         if serial.is_valid():
             user = serial.create(data)
@@ -51,7 +45,6 @@ class UserRegister(APIView):
             return Response(serial.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serial.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class UserLogin(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -73,7 +66,6 @@ def logout_view(request):
     logout(request)
     return Response(status=status.HTTP_200_OK)
 
-
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def user_info(request):
@@ -82,15 +74,14 @@ def user_info(request):
 
     return JsonResponse({'isAuthenticated': True, 'name': request.user.name})
 
-
 class UserView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (SessionAuthentication,)
 
     def get(self, request):
         ser = UserProfileSerializer(request.user)
-        return Response({'user': ser.data}, status=status.HTTP_200_OK)
-
+        data = json.loads(request.body)
+        return Response({'user': ser.data, 'user_id':get_user(data[''])}, status=status.HTTP_200_OK)
 
 @require_POST
 def register_view(request):
@@ -114,9 +105,11 @@ def register_view(request):
 
     return JsonResponse({'detail': 'Успешная регистрация'})
 
+def get_user(username):
+    user = User.objects.get(username=username)
+    return user.id
 
 wild = WildParser()
-
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -134,7 +127,6 @@ def cats_view(request):
         )
 
     return Response({'data': data}, status=status.HTTP_200_OK)
-
 
 def add_cat(data: []):
     a = +1
@@ -159,7 +151,6 @@ def add_cat(data: []):
 
             except:
                 pass
-
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -189,11 +180,11 @@ def cat_view(request):
                              'name': item.description['name']},
              'price': item.price,
              'rating': item.rating,
+
              }
         )
 
     return Response({'data': data}, status=status.HTTP_200_OK)
-
 
 def add_product():
     cats = Categorie.objects.all()
@@ -229,3 +220,72 @@ def add_product():
                         pass
         except:
             pass
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def add_cart(request):
+    data = request.data
+    print(data)
+    user = User.objects.get(username = data['user'])
+    try:
+        cart = Order.objects.get(user_id=user.id, status=1)
+    except:
+        cart = Order(
+            user_id=user.id,
+            status=1
+        )
+        cart.save()
+
+    if data['cart'] == 1:
+        product = Product.objects.filter(description__id=data['product'])[0]
+
+        order_product = OrderProduct(
+            order_id=cart.id,
+            product_id=product.description['id']
+        )
+        order_product.save()
+        return Response({'detail': 'Продукт добавлен в корзину'}, status=status.HTTP_200_OK)
+    elif data['cart'] == 2:
+        print(data['product'])
+        for product in data['product']:
+            id = OrderProduct.objects.get(product_id = product['id'],order_id=cart.id)
+            id.quantity = (int(product['count']))
+            id.save()
+        cart.status = 2
+        cart.save()
+        return Response({'detail': 'Заказ создан'}, status=status.HTTP_200_OK)
+    elif data['cart'] == 0:
+        try:
+            cart = Order.objects.get(user_id=user.id, status = 2)
+            cart.status = 0
+            cart.save()
+            return Response({'detail': 'Заказ отменен'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'detail': 'Заказ не найден'}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def view_cart(request):
+    data = request.data
+    user = User.objects.get(username = data['user'])
+    cart = Order.objects.get(user_id=user.id, status = 1)
+    if cart:
+        order_products = OrderProduct.objects.filter(order_id=cart.id)
+        data = []
+        for i in order_products:
+            product = Product.objects.filter(description__id=i.product_id)[0]
+            data.append(
+                {'id': product.description["id"],
+                 'name': product.name,
+                 'description': {'brand': product.description['brand'],
+                             'name': product.description['name']},
+                 'price': product.price['product'],
+                 'count': 1
+                 }
+            )
+        return Response({'data': data}, status=status.HTTP_200_OK)
+    else:
+        return Response({'detail': 'Корзина пуста'}, status=status.HTTP_404_NOT_FOUND)

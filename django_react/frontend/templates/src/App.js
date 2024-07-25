@@ -1,10 +1,9 @@
 import './App.css';
-import React, {useEffect} from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Product from './pages/home';
 import Navig from './Components/nav';
 import Profile from './pages/profile';
-import Menu from './Components/menu';
 import Footer from "./Components/footer";
 import {Route, Routes, BrowserRouter as Router, Navigate} from "react-router-dom";
 import Product_id from "./pages/id";

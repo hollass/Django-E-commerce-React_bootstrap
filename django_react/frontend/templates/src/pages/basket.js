@@ -1,159 +1,26 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css'
-import {Container, Row, Col, Card, Button, Form} from "react-bootstrap";
-import {useState} from "react";
-
-function ProductCounter({initialCount}) {
-    const [count, setCount] = useState(initialCount);
-
-    const increment = () => {
-        setCount(count + 1);
-    };
-
-    const decrement = () => {
-        setCount(Math.max(count - 1, 0));
-    };
-
-    return (
-        <>
-            <Button color="link" className="px-2" onClick={decrement}>
-                -
-            </Button>
-
-            <Form.Control
-                type="number"
-                min="0"
-                value={count}
-                size="xl"
-                onChange={(e) => setCount(parseInt(e.target.value, 10) || 0)}
-            />
-
-            <Button color="link" className="px-2" onClick={increment}>
-                +
-            </Button>
-        </>
-    );
-}
+import {Container, Row, Col, Card, Button, Form, Modal} from "react-bootstrap";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 
 export default function Basket() {
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+
+        view_cart()
+    }, []);
 
     const increment = (productId) => {
-        updateProductCount(productId, (prevCount) => prevCount + 1);
+        updateProductCount(productId, (prevCount): number => prevCount + 1);
+        console.log(products)
     };
 
     const decrement = (productId) => {
         updateProductCount(productId, (prevCount) => (prevCount > 0 ? prevCount - 1 : 0));
     };
-    const [products, setProducts] = useState(
-        [
-            {
-                id: 1,
-                name: 'Name',
-                count: 1,
-                price: 11,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-            {
-                id: 2,
-                name: 'Name',
-                count: 1,
-                price: 10,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-            {
-                id: 3,
-                name: 'Name',
-                count: 1,
-                price: 20,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-            {
-                id: 4,
-                name: 'Name',
-                count: 1,
-                price: 30,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-            {
-                id: 5,
-                name: 'Name',
-                count: 1,
-                price: 40,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-            {
-                id: 6,
-                name: 'Name',
-                count: 1,
-                price: 50,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-            {
-                id: 7,
-                name: 'Name',
-                count: 1,
-                price: 60,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-            {
-                id: 8,
-                name: 'Name',
-                count: 1,
-                price: 70,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-            {
-                id: 9,
-                name: 'Name',
-                count: 1,
-                price: 10,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-            {
-                id: 10,
-                name: 'Name',
-                count: 1,
-                price: 20,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-            {
-                id: 11,
-                name: 'Name',
-                count: 1,
-                price: 30,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-            {
-                id: 12,
-                name: 'Name',
-                count: 1,
-                price: 40,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-            {
-                id: 13,
-                name: 'Name',
-                count: 1,
-                price: 50,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-            {
-                id: 14,
-                name: 'Name',
-                count: 1,
-                price: 60,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-            {
-                id: 15,
-                name: 'Name',
-                count: 1,
-                price: 70,
-                photo: "https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg"
-            },
-
-        ]);
 
 
     const updateProductCount = (id, updater) => {
@@ -162,14 +29,50 @@ export default function Basket() {
         ));
     };
 
-    const handleQuantityChange = (itemId, newQuantity) => {
-        // Обновляем количество товара в корзине
-        setProducts(prevItems => {
-            return prevItems.map(item =>
-                item.id === itemId ? {...item, count: newQuantity} : item
-            );
-        });
-    };
+    const serverUrl = 'http://localhost:8000/'
+    const user = document.cookie.split('; ')
+        .find(row => row.startsWith('loginInfo=')).split('=')[1];
+    const view_cart = (product) => {
+        axios.post(serverUrl + 'api/view_cart/', {
+            user: user
+        })
+            .then((res) => {
+                console.log(res.data.data);
+                setProducts(res.data.data)
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
+    const add_cart = () => {
+        axios.post(serverUrl + 'api/add_cart/', {
+            user: user,
+            cart: 2,
+            product: products
+        })
+            .then((res) => {
+                return (
+                    <div className="modal show" style={{display: 'block', position: 'initial'}}>
+                        < Modal.Dialog>
+                            < Modal.Header closeButton>
+                                <Modal.Title>Заказ создан</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                Ваш заказ успешно создан!
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="primary" href={'/'}>
+                                    Ок!
+                                </Button>
+                            </Modal.Footer>
+                        </Modal.Dialog>
+                    </div>
+                )
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
 
 
     const handleRemoveItem = (itemId) => {
@@ -183,7 +86,7 @@ export default function Basket() {
     // Функция для подсчета общей стоимости
     const calculateTotalPrice = () => {
         return products.reduce((total, product) => {
-            return total + product.count * product.price;
+            return total + product.count * product.price / 100;
         }, 0);
     };
 
@@ -213,15 +116,15 @@ export default function Basket() {
                                                         className="mb-4 d-flex justify-content-between align-items-center">
                                                         <Col md="2" lg="2" xl="2">
                                                             <Card.Img
-                                                                src={product.photo}
+                                                                src='https://ir-2.ozone.ru/s3/multimedia-6/wc1000/6606982194.jpg'
                                                                 fluid className="rounded-3" alt="Cotton T-shirt"/>
                                                         </Col>
                                                         <Col md="3" lg="3" xl="3">
-                                                            <Card.Text tag="h6" className="text-muted">
+                                                            <Card.Text tag="h6" className="text-bold fw-bold">
                                                                 {product.name}
                                                             </Card.Text>
-                                                            <Card.Text tag="h6" className="text-black mb-0">
-                                                                {product.name}
+                                                            <Card.Text tag="h6" className="text-muted small ">
+                                                                {product.description.brand}
                                                             </Card.Text>
                                                         </Col>
                                                         <Col md={3} lg={3} xl={3} className="d-flex align-items-center">
@@ -232,8 +135,10 @@ export default function Basket() {
                                                                     -
                                                                 </Button>
                                                                 <Form.Control
-                                                                    value={product.count} // Отображаем текущее количество
-                                                                    readOnly // Делаем поле только для чтения
+                                                                    value={product.count}
+                                                                    type="number"
+                                                                    min={0}
+                                                                    readOnly
                                                                 />
                                                                 <Button variant="link" className="px-2"
                                                                         onClick={() => increment(product.id)}>
@@ -243,7 +148,7 @@ export default function Basket() {
                                                         </Col>
                                                         <Col md="3" lg="2" xl="2" className="text-end">
                                                             <Card.Text tag="h6" className="mb-0">
-                                                                € {product.price}
+                                                                Р {product.count * product.price / 100}
                                                             </Card.Text>
                                                         </Col>
                                                         <Col md="1" lg="1" xl="1" className="text-end">
@@ -280,7 +185,7 @@ export default function Basket() {
                                                 <Card.Text tag="h5" className="text-uppercase">
                                                     items 3
                                                 </Card.Text>
-                                                <Card.Text tag="h5">€ {calculateTotalPrice()}</Card.Text>
+                                                <Card.Text tag="h5">{calculateTotalPrice()}</Card.Text>
                                             </div>
 
 
@@ -300,10 +205,12 @@ export default function Basket() {
                                                     Total price
                                                 </Card.Text>
                                                 <Card.Text
-                                                    tag="h5">€ {calculateTotalPrice()}</Card.Text>
+                                                    tag="h5">{calculateTotalPrice()}</Card.Text>
                                             </div>
 
-                                            <Button color="dark" block size="lg">
+                                            <Button color="dark" block size="lg" onClick={() => {
+                                                add_cart()
+                                            }}>
                                                 Register
                                             </Button>
                                         </div>

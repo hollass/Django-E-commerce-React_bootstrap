@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css'
-import {Nav, Container, Row, Modal, Image, Card, CardImgOverlay} from "react-bootstrap";
+import {Nav, Container, Row, Modal, Image, Card, CardImgOverlay, Col} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
@@ -26,22 +26,21 @@ export default function Menu_cats() {
     return (
 
         <div className="vertical-menu">
-            {isCats.map((cat) => (
-                <div className="card-category">
-                    <Card>
-                        <Nav.Link href={cat.url}>
-                            <Image src={'https://i.artfile.ru/2560x1600_835577_[www.ArtFile.ru].jpg'}/>
-                            <p>{cat.name}</p>
+            <Col>
+                <Row>
+                    {isCats.map((cat) => (
+                        <div className="card-category">
+                            <Card>
+                                <Nav.Link href={cat.url}>
+                                    <Image src={'https://i.artfile.ru/2560x1600_835577_[www.ArtFile.ru].jpg'}/>
+                                    <p>{cat.name}</p>
 
-                        </Nav.Link>
-                    </Card>
-                </div>
-            ))}
-
-
+                                </Nav.Link>
+                            </Card>
+                        </div>
+                    ))}
+                </Row>
+            </Col>
         </div>
-
-
-    )
-        ;
+    );
 }

@@ -7,7 +7,10 @@ class CategorieAdmin(admin.ModelAdmin):
     list_display = ('name', 'active')
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'products', 'status')
+    list_display = ('user_id', 'status')
+
+class OrderProductAdmin(admin.ModelAdmin):
+    list_display = ('order_id', 'product_id', 'quantity')
 
 
 

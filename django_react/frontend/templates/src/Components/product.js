@@ -1,292 +1,62 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button, Card} from 'react-bootstrap';
+import {Button, Card, Col, Image, Row} from 'react-bootstrap';
+import '../card.css'
 import '../App.css'
+import {useEffect, useState} from "react";
 
-export default function Product() {
+export default function Product_list() {
+    const [Products, set] = (useState([
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+        {name: 'name', value: 222, brand: 'brand'},
+
+    ]))
+
     return (
-        <div className='all_product'>
-            <div className={"row"}>
-                <Card className={"cal"}>
-                    <a href="#">
-                    <span>
-                        <div className='card-img'>
-                            <Card.Img variant={"bottom"}
-                                      src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                        </div>
-                        <Card.Body>
-                            <Card.Title>Card Title0</Card.Title>
-                            <Card.Text>
-                                Some quick example text to build on the card title and make up the bulk of
-                                the card's content.
-                            </Card.Text>
-                            <div class="buttons_buy">
-                                <div class="buy">
-                                    <Button href={'/gome'} variant="">В корзину</Button>
+        <div className="all_product">
+            <Col>
+                <Row>
+                    {Products.map(Product => (
+                        <div href="" className="card__id">
+                            <img src="https://basket-09.wbbasket.ru/vol1243/part124302/124302874/images/big/1.webp"
+                                 className="card__image" alt=""/>
+                            <div className="card__overlay">
+                                <div className="card__header">
+                                    <svg className="card__arc" xmlns="http://www.w3.org/2000/svg">
+                                        <path/>
+                                    </svg>
+                                    <div className="card__header-text">
+                                        <span className="card__status">{Product.value} Р</span>
+                                        <h3 className="card__title">{Product.name}</h3>
+                                        <p className="card__brand small">{Product.description.brand}</p>
+                                    </div>
                                 </div>
-                                <div class="like">
-                                    <a href="#features">
-                                        <span>
-                                            <img src='https://img.icons8.com/?size=100&id=87&format=png&color=000000'
-                                                 width='30px'/>
-                                        </span>
-                                    </a>                               </div>
+                                <div className="card__button">
+                                    <Button className={'card__button_buy'} variant="link">В корзину</Button>
+                                </div>
                             </div>
-
-                        </Card.Body>
-                    </span>
-                    </a>
-
-                </Card>
-                <Card className={"cal"}>
-                    <a href={'#'}><span>
-                <Card.Img variant={"bottom"}
-                          src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                <Card.Body>
-                    <Card.Title>Card Title0</Card.Title>
-                    <Card.Text>
-                        Some quick example text to build on the card title and make up the bulk of
-                        the card's content.
-                    </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
-                </Card.Body></span></a>
-
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-                <Card className={"cal"}>
-                    <Card.Img variant={"bottom"}
-                              src="https://res.cloudinary.com/practicaldev/image/fetch/s--CCXD3gIH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/546/1%2A36D6oCrl2Fpif_8NzK2lYA.png"/>
-                    <Card.Body>
-                        <Card.Title>Card Title0</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-
-                </Card>
-            </div>
+                        </div>
+                    ))}
+                </Row>
+            </Col>
         </div>
     );
 }

@@ -11,7 +11,6 @@ export default function Register() {
     const [isEmail, setisEmail] = useState('')
     const [isError, setIsError] = useState(null)
     const [isAuth, setIsAuth] = useState(false)
-    const [name, setname] = useState('')
 
     useEffect(() => {
         getCsrfs()
@@ -49,7 +48,6 @@ export default function Register() {
     }
 
 
-    // Полученный CSRF-токен пихаем в заголовок и отправляем серверу
     const registration = () => {
         const data = {username: isLogin, password: isPassword, email: isEmail}
         axios.post(serverUrl + 'api/register/', data)
@@ -57,9 +55,8 @@ export default function Register() {
                 isResponseOk(res);
                 getCSRF()
                 setIsAuth(true);
-                setname(data.username);
                 setIsError(null);
-                document.cookie = 'loginInfo=' + isLogin;
+                document.cookie = 'loginInfo=' + res.data.data.user_id;
                 window.location.href('/')
 
 
